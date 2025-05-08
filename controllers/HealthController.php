@@ -2,10 +2,12 @@
 
 namespace app\controllers;
 
-class GreetingController extends BaseController
+use yii\web\Controller;
+
+class HealthController extends Controller
 {
     public function actionIndex(): string
     {
-        return "Hello World!";
+        return "OK";
     }
 }

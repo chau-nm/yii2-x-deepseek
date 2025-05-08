@@ -2,102 +2,61 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+class User implements \yii\web\IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function findIdentity($id)
+    public function __construct(
+        public string $username,
+        public string $password
+    )
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public static function findIdentity($id): ?User
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
+        return $id === env('APP_USERNAME') ? new User(
+            env('APP_USERNAME'),
+            env('APP_PASSWORD'),
+        ) : null;
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null): ?User
+    {
+        $tokenDecode = base64_decode($token);
+        $tokenDecodeSplits = explode(':', $tokenDecode);
+        if (count($tokenDecodeSplits) < 2) {
+            return null;
         }
 
-        return null;
+        $username = $tokenDecodeSplits[0];
+        $password = $tokenDecodeSplits[1];
+
+        return $username === env('APP_USERNAME')
+            && $password === env('APP_PASSWORD')
+            ? new User(
+                env('APP_USERNAME'),
+                env('APP_PASSWORD'),
+            )
+            : null;
     }
 
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
+    public function getId(): string
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return $this->username;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getAuthKey(): string
     {
-        return $this->id;
+        return base64_encode("{$this->username}:{$this->password}");
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthKey()
+    public function validateAuthKey($authKey): bool
     {
-        return $this->authKey;
+        return base64_encode("{$this->username}:{$this->password}") === $authKey;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function validateAuthKey($authKey)
+    public function validate(): bool
     {
-        return $this->authKey === $authKey;
-    }
-
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
+        return $this->username === env('APP_USERNAME') && $this->password === env('APP_PASSWORD');
     }
 }
