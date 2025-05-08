@@ -37,6 +37,9 @@ $config = [
             'enableStrictParsing' => false,
             'rules' => [],
         ],
+        'deepSeekerClient' => [
+            'class' => \app\http\DeepSeekClient::class
+        ]
     ],
     'params' => $params,
 ];
