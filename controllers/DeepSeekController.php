@@ -11,7 +11,7 @@ use Yii;
 
 class DeepSeekController extends BaseController
 {
-    public DeepSeekChatService $deepSeekChatService;
+    private DeepSeekChatService $deepSeekChatService;
 
     /**
      * @throws BadRequestHttpException
