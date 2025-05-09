@@ -1,6 +1,6 @@
 <p align="center">
    <strong style="font-size:2em">
-      Chat api with DeepSeek AI
+      Chat API with DeepSeek AI
    </strong>
 </p>
 
