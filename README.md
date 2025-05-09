@@ -84,7 +84,7 @@ composer install
 ```
 
 ### ENVIRONMENT
-To use this project, you need setup environment variable( Create .env file or Using ENV var from OS ). You can follow [.env-example](.env-example).
+To use this project, you need setup environment variable ( Create .env file or Using ENV var from OS ). You can follow [.env-example](.env-example).
 
 ### ENDPOINT
 This project has only one endpoint, as shown below:
