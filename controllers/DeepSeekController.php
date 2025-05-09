@@ -3,7 +3,9 @@
 namespace app\controllers;
 
 use app\models\request\ChatRequest;
+use app\models\response\ChatResponse;
 use app\service\DeepSeekChatService;
+use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
 use Yii;
 
@@ -13,14 +15,20 @@ class DeepSeekController extends BaseController
 
     /**
      * @throws BadRequestHttpException
+     * @throws InvalidConfigException
      */
-    public function actionChat(): ?array
+    public function actionChat(): ?ChatResponse
     {
         $this->deepSeekChatService = new DeepSeekChatService();
         $chatRequest = new ChatRequest();
         if ($chatRequest->load(["ChatRequest" => Yii::$app->request->post()]) && $chatRequest->validate()) {
-            return $this->deepSeekChatService->chat($chatRequest);
+            $chatResponse = $this->deepSeekChatService->chat($chatRequest);
+            if (is_null($chatResponse)) {
+                throw new BadRequestHttpException();
+            } else {
+                return $chatResponse;
+            }
         }
-        return [Yii::$app->request->post()];
+        throw new BadRequestHttpException();
     }
 }

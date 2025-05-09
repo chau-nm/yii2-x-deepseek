@@ -4,6 +4,7 @@ namespace app\http;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 
 class DeepSeekClient
 {
@@ -21,7 +22,7 @@ class DeepSeekClient
         ]);
     }
 
-    public function execute(string $method, string $url, array $headers = [], $body = null): array
+    public function execute(string $method, string $url, array $headers = [], $body = null): Response
     {
         $request = new Request($method, $url, $headers, $body);
         return $this->client->sendAsync($request)->wait();
