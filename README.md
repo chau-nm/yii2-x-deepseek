@@ -1,22 +1,17 @@
-<p align="center">
-   <strong style="font-size:2em">
-      Yii2 x DeepSeek
-   </strong>
-</p>
+# Yii2 x DeepSeek
 
-<hr/>
 
-### SUMMARY
+## SUMMARY
 
 This project is a basic chatbot API built using the DeepSeek platform.
 
 For more information, you can refer to the official DeepSeek API documentation here:</br>
 👉 https://api-docs.deepseek.com/
 
-### * NOTE
+## * NOTE
 **`This project has only develop environment.`**
 
-### * REQUIREMENT
+## * REQUIREMENT
 
 <table>
     <thead>
@@ -57,7 +52,7 @@ For more information, you can refer to the official DeepSeek API documentation h
     </tbody>
 </table>
 
-### INSTALL
+## INSTALL
 
 1. Git clone
 
@@ -83,10 +78,10 @@ docker compose exec php bash
 composer install
 ```
 
-### ENVIRONMENT
+## ENVIRONMENT
 To use this project, you need setup environment variable ( Create .env file or Using ENV var from OS ). You can follow [.env-example](.env-example).
 
-### ENDPOINT
+## ENDPOINT
 This project has only one endpoint, as shown below:
 
 ```aiignore
