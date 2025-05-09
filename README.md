@@ -1,6 +1,6 @@
 <p align="center">
    <strong style="font-size:2em">
-      Chat API with DeepSeek AI
+      Yii2 x DeepSeek
    </strong>
 </p>
 
